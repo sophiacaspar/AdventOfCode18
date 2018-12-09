@@ -23,6 +23,15 @@ namespace AdventOfCode18.Day02
             Assert.Equal(7808, checkSum);
         }
 
+        [Fact]
+        public void Day2_part2()
+        {
+            var boxIDs = _day2.ReadFile();
+            var differsWithOne = _day2.GetWordsThatDiffersOneLetter(boxIDs);
+            string similarLetters = _day2.GetSimilarLettersFromWordsThatDiffersWithOne(differsWithOne);
+            Assert.Equal("efmyhuckqldtwjyvisipargno", similarLetters);
+        }
+
         [Theory]
         [InlineData("abcdef", 0, 0)]
         [InlineData("bababc", 1, 1)]
@@ -48,6 +57,37 @@ namespace AdventOfCode18.Day02
             _day2.CountTotalLetterOccurenceForBoxId(boxIDs);
             int checkSum = _day2.GetCheckSum();
             Assert.Equal(12, checkSum);
+        }
+
+        [Fact]
+        public void Should_find_words_with_one_letters_difference()
+        {
+            var boxIDs = new List<string>(new string[]
+                {"abcde", "fghij", "klmno", "pqrst","fguij","axcye","wvxyz"});
+            var expectedDifferences = new List<string>(new string[]
+                {"fghij", "fguij"});
+            List<string> differsWithOne =  _day2.GetWordsThatDiffersOneLetter(boxIDs);
+            Assert.Equal(expectedDifferences, differsWithOne);
+        }
+
+        [Fact]
+        public void Should_find_words_that_differs_with_one_letter()
+        {
+            var differsWithOne = _day2.BoxIDsDiffersWithOne("fghij", "fguij");
+            var differsWithMore = _day2.BoxIDsDiffersWithOne("abcde", "axcye");
+            Assert.True(differsWithOne);
+            Assert.False(differsWithMore);
+        }
+
+        [Fact]
+        public void Should_find_similar_letters_from_words_that_differs_with_one()
+        {
+            var boxIDs = new List<string>(new string[]
+                {"abcde", "fghij", "klmno", "pqrst","fguij","axcye","wvxyz"});
+            var expectedSimilarities = "fgij";
+            List<string> differsWithOne = _day2.GetWordsThatDiffersOneLetter(boxIDs);
+            string similarLetters = _day2.GetSimilarLettersFromWordsThatDiffersWithOne(differsWithOne);
+            Assert.Equal(expectedSimilarities, similarLetters);
         }
     }
 }

@@ -67,5 +67,57 @@ namespace AdventOfCode18.Day02
             }
             return boxIDs;
         }
+
+        public List<string> GetWordsThatDiffersOneLetter(List<string> boxIDs)
+        {
+            List<string> differsWithOne = new List<string>();
+            foreach (var currentBoxID in boxIDs)
+            {
+                foreach (var boxID in boxIDs)
+                {
+                    if (BoxIDsDiffersWithOne(currentBoxID, boxID))
+                    {
+                        differsWithOne.Add(currentBoxID);
+                    }
+                }
+            }
+
+            return differsWithOne;
+        }
+
+        public bool BoxIDsDiffersWithOne(string currentBoxId, string boxId)
+        {
+            var differences = 0;
+            if (currentBoxId == boxId) { return false; }
+            for (int i = 0; i < currentBoxId.Length; i++)
+            {
+                if (currentBoxId[i] != boxId[i] && currentBoxId.Length == boxId.Length)
+                {
+                    differences++;
+                }
+            }
+
+            if (differences == 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public string GetSimilarLettersFromWordsThatDiffersWithOne(List<string> differsWithOne)
+        {
+            var similarLetters = string.Empty;
+            var firstWord = differsWithOne[0];
+            var secondWord = differsWithOne[1];
+            for (int i = 0; i < firstWord.Length; i++)
+            {
+                if (firstWord[i] == secondWord[i])
+                {
+                    similarLetters += firstWord[i];
+                }
+            }
+            return similarLetters;
+        }
     }
 }
